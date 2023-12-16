@@ -8,6 +8,7 @@ import {
 	Dispatch,
 	MouseEventHandler,
 	SetStateAction,
+	useCallback,
 	useEffect,
 	useMemo,
 	useRef,
@@ -16,7 +17,7 @@ import {
 import { ITraceTree } from 'types/api/trace/getTraceItem';
 
 import { ITraceMetaData } from '..';
-import SpanLength from '../SpanLength';
+import Span from '../Span';
 import SpanName from '../SpanName';
 import { getMetaDataFromSpanTree, getTopLeftFromBody } from '../utils';
 import {
@@ -28,6 +29,7 @@ import {
 	Wrapper,
 } from './styles';
 import { getIconStyles } from './utils';
+import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 
 function Trace(props: TraceProps): JSX.Element {
 	const {
@@ -133,6 +135,35 @@ function Trace(props: TraceProps): JSX.Element {
 		[isOpen, iconStyles],
 	);
 
+	const traceRef = useRef<VirtuosoHandle>(null);
+
+	const getItemContent = useCallback(
+		(_: number, trace: any): JSX.Element => {
+			console.log('trace', trace);
+			return (
+				<Trace
+					key={trace.id}
+					activeHoverId={activeHoverId}
+					setActiveHoverId={setActiveHoverId}
+					// eslint-disable-next-line react/jsx-props-no-spreading
+					{...trace}
+					globalSpread={globalSpread}
+					globalStart={globalStart}
+					setActiveSelectedId={setActiveSelectedId}
+					activeSelectedId={activeSelectedId}
+					level={level + 1}
+					activeSpanPath={activeSpanPath}
+					isExpandAll={isExpandAll}
+					intervalUnit={intervalUnit}
+					isMissing={trace.isMissing}
+				/>
+			);
+		},
+		[children],
+	);
+
+	console.log('children', children.length, children);
+
 	return (
 		<Wrapper
 			onMouseEnter={onMouseEnterHandler}
@@ -169,7 +200,13 @@ function Trace(props: TraceProps): JSX.Element {
 					</StyledRow>
 				</StyledCol>
 				<Col flex="1">
-					<SpanLength
+					<Span
+						globalSpread={globalSpread}
+						globalStart={globalStart}
+						serviceName={serviceName}
+						startTime={startTime}
+						value={value}
+						name={name}
 						leftOffset={nodeLeftOffset.toString()}
 						width={width.toString()}
 						bgColor={serviceColour}

@@ -102,20 +102,27 @@ function SelectedSpanDetails(props: SelectedSpanDetailsProps): JSX.Element {
 				styledclass={[styles.selectedSpanDetailsContainer, styles.overflow]}
 				direction="vertical"
 			>
-				<Typography.Text strong> Details for selected Span </Typography.Text>
+				<Typography.Text
+					strong
+					style={{
+						marginTop: '16px',
+					}}
+				>
+					{' '}
+					Details for selected Span{' '}
+				</Typography.Text>
 
-				<CustomTitle>Service</CustomTitle>
+				<Typography.Text style={{ fontWeight: 700 }}>Service</Typography.Text>
 
-				<Tooltip overlay={OverLayComponentServiceName}>
-					<CustomText ellipsis>{tree.serviceName}</CustomText>
-				</Tooltip>
+				<Typography>{tree.serviceName}</Typography>
 
-				<CustomTitle>Operation</CustomTitle>
-				<Tooltip overlay={OverLayComponentName}>
-					<CustomText ellipsis>{tree.name}</CustomText>
-				</Tooltip>
+				<Typography.Text style={{ fontWeight: 700 }}>Operation</Typography.Text>
 
-				<Button onClick={onLogsHandler}>Go to Related logs</Button>
+				<Typography>{tree.name}</Typography>
+
+				<Button size="small" style={{ marginTop: '8px' }} onClick={onLogsHandler}>
+					Go to Related logs
+				</Button>
 			</StyledSpace>
 
 			<Modal
@@ -136,7 +143,7 @@ function SelectedSpanDetails(props: SelectedSpanDetailsProps): JSX.Element {
 				)}
 			</Modal>
 
-			<Tabs defaultActiveKey="1" items={items} />
+			<Tabs style={{ padding: '8px' }} defaultActiveKey="1" items={items} />
 		</CardContainer>
 	);
 }

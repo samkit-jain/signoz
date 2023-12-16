@@ -1,9 +1,10 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Popover, Space } from 'antd';
+import { Popover, Space, Typography } from 'antd';
 import { convertTimeToRelevantUnit } from 'container/TraceDetail/utils';
 import { useIsDarkMode } from 'hooks/useDarkMode';
 
 import { CustomSubText, CustomSubTitle } from '../styles';
+import dayjs from 'dayjs';
 
 function StartTime({
 	firstSpanStartTime,
